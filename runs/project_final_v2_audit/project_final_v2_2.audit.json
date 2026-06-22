@@ -1,0 +1,311 @@
+{
+  "elapsed_s": 681.179357334,
+  "cell_count": 66,
+  "code_cell_count": 36,
+  "errors": [],
+  "warnings": [
+    {
+      "cell_index": 8,
+      "duration_s": 5.029609583999999,
+      "source_preview": "city_graph_proj = ox.project_graph(city_graph) # Reproject from lat/lon (degrees) \u2192 UTM (metres). # UTM uses metres uniformly so distance calculations are accurate. nodes_proj, edges_proj = ox.graph_to_gdfs(city_graph_proj, nodes=True, edge",
+      "patterns": [
+        "\\bnan\\b"
+      ],
+      "output_tail": "CRS (Coordinate Reference System): EPSG:32644\n\nAll edge attribute columns:\n['osmid', 'highway', 'oneway', 'reversed', 'length', 'lanes', 'name', 'ref', 'geometry', 'access', 'bridge', 'junction', 'maxspeed', 'tunnel']\n\nSample edge rows:\n                               length   highway maxspeed lanes  oneway\nu          v          key                                             \n245748060  8839368227 0      9.488318  tertiary      NaN   NaN    True\n           8336861318 0    126.608881     trunk      NaN     2    True\n8839368227 8839368226 0      7.398168     trunk      NaN     2    True\n           8395232941 0     70.519740  tertiary      NaN   NaN    True\n\nCRS (Coordinate Reference System): EPSG:32644\n\nAll edge attribute columns:\n['osmid', 'highway', 'oneway', 'reversed', 'length', 'lanes', 'name', 'ref', 'geometry', 'access', 'bridge', 'junction', 'maxspeed', 'tunnel']\n\nSample edge rows:\n                               length   highway maxspeed lanes  oneway\nu          v          key                                             \n245748060  8839368227 0      9.488318  tertiary      NaN   NaN    True\n           8336861318 0    126.608881     trunk      NaN     2    True\n8839368227 8839368226 0      7.398168     trunk      NaN     2    True\n           8395232941 0     70.519740  tertiary      NaN   NaN    True\n"
+    }
+  ],
+  "cells": [
+    {
+      "index": 2,
+      "execution_count": 1,
+      "duration_s": 0.2333951670000003,
+      "source_preview": "!pip install osmnx networkx geopandas folium matplotlib pandas numpy scipy tqdm shapely",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 4,
+      "execution_count": 2,
+      "duration_s": 32.31232625,
+      "source_preview": "import pandas as pd import geopandas as gpd # pandas + geographic geometry columns import numpy as np import math import heapq # for priority queues import time # measure execution speed import random # pick random incident nodes for benchm",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 6,
+      "execution_count": 3,
+      "duration_s": 57.997251125000005,
+      "source_preview": "print(\"Downloading Kanpur road network from OpenStreetMap...\") city_graph = ox.graph_from_place( query=\"Kanpur, Uttar Pradesh, India\", network_type=\"drive\", # Only drivable roads (cars/ambulances). # Options: \"drive\", \"walk\", \"bike\", \"all\" ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 8,
+      "execution_count": 4,
+      "duration_s": 5.029609583999999,
+      "source_preview": "city_graph_proj = ox.project_graph(city_graph) # Reproject from lat/lon (degrees) \u2192 UTM (metres). # UTM uses metres uniformly so distance calculations are accurate. nodes_proj, edges_proj = ox.graph_to_gdfs(city_graph_proj, nodes=True, edge",
+      "error_count": 0,
+      "warning_patterns": [
+        "\\bnan\\b"
+      ]
+    },
+    {
+      "index": 10,
+      "execution_count": 5,
+      "duration_s": 4.204221125000004,
+      "source_preview": "fig, ax = ox.plot_graph( city_graph, figsize=(14, 12), # 14\u00d712 inch figure node_size=0, # hide intersection dots edge_color='#444444', # dark grey roads edge_linewidth=0.4, # thin lines so full city is visible bgcolor='white', # clean white",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 12,
+      "execution_count": 6,
+      "duration_s": 3.6250887500000033,
+      "source_preview": "print(\"Fetching hospitals from OpenStreetMap (Overpass API)...\") hospitals_gdf = None hospitals_gdf = ox.features_from_place( query=\"Kanpur, Uttar Pradesh, India\", tags={\"amenity\": \"hospital\"} # OSM tags are key-value pairs. amenity=hospita",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 14,
+      "execution_count": 7,
+      "duration_s": 0.0172402500000004,
+      "source_preview": "hospital_records = [] # list of {name, lat, lon} if hospitals_gdf is not None and len(hospitals_gdf) > 0: for idx, row in hospitals_gdf.iterrows(): # idx is (element_type, osmid) e.g. ('way', 987654321) geom = row.geometry if geom is None o",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 16,
+      "execution_count": 8,
+      "duration_s": 0.09395470800001249,
+      "source_preview": "# hospital coordinates are lat/lon \u2192 snap to nearest node in city_graph (also lat/lon) print(\"Snapping hospital GPS coordinates to nearest road intersections...\") hospital_node_ids = ox.nearest_nodes( city_graph, # road network graph hospit",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 18,
+      "execution_count": 9,
+      "duration_s": 0.9370672499999984,
+      "source_preview": "# Speed table: OSM highway type \u2192 speed in km/h # Based on Indian road speed limits + typical driving speeds HIGHWAY_SPEEDS = { 'motorway' : 80, # National expressway 'motorway_link' : 60, # On/off ramp to motorway 'trunk' : 60, # National/",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 20,
+      "execution_count": 10,
+      "duration_s": 0.005529249999995045,
+      "source_preview": "def two_q_shortest_path(graph, start, end, weight='travel_time'): THRESHOLD = 120 # 120 seconds = 2 minutes. # Original notebook used 1000 (metres). We changed to 120 (seconds) # because our weight is now travel_time (seconds), not length (",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 22,
+      "execution_count": 11,
+      "duration_s": 0.004481458000000771,
+      "source_preview": "def dijkstra_shortest_path(graph, start, end, weight='travel_time'): \"\"\" Dijkstra's shortest path algorithm. Original: Kaggle notebook. Adapted: weight parameter + defaultdict. Always expands the cheapest unvisited node first (via min-heap)",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 24,
+      "execution_count": 12,
+      "duration_s": 0.0071598339999923155,
+      "source_preview": "def astar_shortest_path(graph, start, end, weight='travel_time'): \"\"\" A* shortest path algorithm. NEW in Phase 1. At every step, A* selects the node with the lowest f(n) = g(n) + h(n): g(n): actual cost from start to n (accumulated, like Di",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 26,
+      "execution_count": 13,
+      "duration_s": 0.483202083000009,
+      "source_preview": "# \u2500\u2500 Pick origin: first hospital in our list \u2500\u2500 origin_hospital = hospital_df.iloc[0] origin_node = int(origin_hospital['node_id']) print(f\"Origin (Hospital) : {origin_hospital['name']}\") print(f\" Lat {origin_hospital['lat']:.5f}, Lon {orig",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 28,
+      "execution_count": 14,
+      "duration_s": 0.020719624999998132,
+      "source_preview": "# Helper: convert list of node IDs \u2192 list of (lat, lon) pairs for folium def path_to_latlon(graph, node_path): \"\"\" folium.PolyLine needs [(lat, lon), (lat, lon), ...]. OSMnx stores: node['y'] = latitude, node['x'] = longitude. \"\"\" coords = ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 30,
+      "execution_count": 15,
+      "duration_s": 13.851316499999996,
+      "source_preview": "N_PAIRS = 30 WEIGHT = 'travel_time' print(f\"Benchmarking {N_PAIRS} random hospital \u2192 incident pairs...\") print(\"Each pair runs all 3 algorithms. Progress bar below.\") print() results = [] # one dict per (trial \u00d7 algorithm) for trial in tqdm",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 32,
+      "execution_count": 16,
+      "duration_s": 0.007412208000005194,
+      "source_preview": "print(\"=\" * 62) print(\"PHASE 1 SUMMARY \u2014 Kanpur Emergency Routing\") print(\"=\" * 62) ALGOS = ['Two-Q', 'Dijkstra', 'A*'] # Define ALGOS here summary = results_df.groupby('algorithm').agg( mean_travel_min = ('cost_min', 'mean'), std_travel_mi",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 34,
+      "execution_count": 17,
+      "duration_s": 0.30861545800000556,
+      "source_preview": "hospital_map = folium.Map( location=kanpur_center, zoom_start=12, tiles='cartodbpositron' ) for _, row in hospital_df.iterrows(): node_id = int(row['node_id']) # Get the SNAPPED coordinate (on the road) not the raw GPS coordinate node_lat =",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 36,
+      "execution_count": 18,
+      "duration_s": 5.496223708000002,
+      "source_preview": "# Install PyTorch + torch_geometric (for Graph Neural Network encoder) import subprocess, sys, importlib try: import torch print(f\"PyTorch {torch.__version__} already available \u2014 skipping install.\") except ImportError: print(\"Installing PyT",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 37,
+      "execution_count": 19,
+      "duration_s": 0.022407749999999282,
+      "source_preview": "import torch import torch.nn as nn import torch.nn.functional as F from torch.optim import Adam from itertools import permutations # Reproducibility SEED = 42 torch.manual_seed(SEED) np.random.seed(SEED) random.seed(SEED) device = torch.dev",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 39,
+      "execution_count": 20,
+      "duration_s": 0.012416583999993236,
+      "source_preview": "# \u2500\u2500 Problem parameters \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 NUM_INCIDENTS = 5 # incidents per routing episode TOTAL_NODES = 1 + NUM_INCIDENTS # depot + incidents AVG_SPEED_KMH = 30.0 # city ambulance average speed (km/h) # ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 41,
+      "execution_count": 21,
+      "duration_s": 29.85016433300001,
+      "source_preview": "# \u2500\u2500 Candidate pool configuration \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 CANDIDATE_POOL_SIZE = 150 # incidents drawn from this pool during training MAX_DIST_CAP_S = 3600.0 # cap distances at 1 hour (unreachable nodes) print(f\"Building ca",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 43,
+      "execution_count": 22,
+      "duration_s": 1.6008360000000152,
+      "source_preview": "import subprocess, sys try: import node2vec as _n2v_pkg print(f\"node2vec {_n2v_pkg.__version__} already installed.\") except ImportError: print(\"Installing node2vec ...\") subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", \"node2v",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 45,
+      "execution_count": 23,
+      "duration_s": 400.98929758400004,
+      "source_preview": "import os, time as _time import numpy as np N2V_DIM = 64 # embedding dimension \u2014 matches STATIC_SIZE when using n2v N2V_CACHE_PATH = \"kanpur_n2v.npy\" # cache file to avoid retraining every run n2v_emb_dict = {} # global: node_id -> np.ndarr",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 47,
+      "execution_count": 24,
+      "duration_s": 0.010918749999973443,
+      "source_preview": "def build_instance_graph(inst_dist_matrix, device): \"\"\" Build a fully-connected directed graph for one routing instance. edge_attr = normalised true A* travel times (road-topology-aware weights). \"\"\" N = inst_dist_matrix.shape[0] src_list, ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 49,
+      "execution_count": 25,
+      "duration_s": 0.05337520900002346,
+      "source_preview": "# \u2500\u2500 Detect torch_geometric availability \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 try: from torch_geometric.nn import GATConv as _GATConv HAS_PYG = True print(\"torch_geometric detected \u2192 GNNStaticEncoder (GAT) will be used.\") except ImportError: ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 50,
+      "execution_count": 26,
+      "duration_s": 0.004743708999967566,
+      "source_preview": "class StaticEncoder(nn.Module): \"\"\" Encodes static node features (normalised coordinates) into hidden vectors. Equivalent to Nazari et al.'s 1-D conv encoder (Linear shared across nodes). Input : (B, input_size, N) \u2014 batch of N nodes, each ",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 51,
+      "execution_count": 27,
+      "duration_s": 0.004892083000072489,
+      "source_preview": "class BahdanauAttention(nn.Module): \"\"\" Additive (Bahdanau-style) attention used as the pointer mechanism. Nazari et al. \u00a73.1 \u2014 computes logits e_i for each node i: e_i = v^T \u00b7 tanh( W_q \u00b7 query + W_r \u00b7 ref_i ) query : current decoder hidde",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 53,
+      "execution_count": 28,
+      "duration_s": 0.008320582999999715,
+      "source_preview": "class AttentionModelDecoder(nn.Module): \"\"\" Pure attention-based decoder \u2014 Kool et al. (2019) Attention Model. Replaces the GRUDecoder. No recurrent hidden state. At every decoding step t: 1. Context vector: h_mean = mean( static_enc + dyna",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 55,
+      "execution_count": 29,
+      "duration_s": 0.017874582999979793,
+      "source_preview": "# Resolve encoder and static size at instantiation time _StaticEncoderClass = GNNStaticEncoder if HAS_PYG else SelfAttentionEncoder # STATIC_SIZE depends on whether Node2Vec ran successfully STATIC_SIZE = N2V_DIM if (HAS_N2V and len(n2v_emb",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 56,
+      "execution_count": 30,
+      "duration_s": 0.005307457999947474,
+      "source_preview": "class Critic(nn.Module): \"\"\" Baseline critic \u2014 estimates expected tour length V(s). Used in REINFORCE to reduce gradient variance: \u2207J(\u03b8) \u2248 (R(\u03c4) \u2212 V(s)) \u00b7 \u2207 log \u03c0_\u03b8(\u03c4) Architecture (Nazari et al. \u00a73.3): 1. StaticEncoder \u2014 projects each node",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 58,
+      "execution_count": 31,
+      "duration_s": 0.013347834000001058,
+      "source_preview": "def compute_tour_time_matrix(tours, dist_mats): \"\"\" Compute total TRUE travel time using the pre-computed A* distance matrix. This replaces the original Haversine-based compute_tour_time. The reward signal now reflects actual road-network t",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 60,
+      "execution_count": 32,
+      "duration_s": 116.38207925000006,
+      "source_preview": "# -- Phase 1: Hyperparameters (increased per roadmap) ------------------------- DYNAMIC_SIZE = 1 HIDDEN_SIZE = 128 BATCH_SIZE = 32 # Phase 1: was 16 -> 32 NUM_EPISODES = 3000 # Phase 1: was 300 -> 3000 (10x more training) ACTOR_LR = 3e-4 CR",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 61,
+      "execution_count": 33,
+      "duration_s": 0.30747874999997293,
+      "source_preview": "def smooth(arr, w=30): \"\"\"Rolling mean for plot readability.\"\"\" return np.convolve(arr, np.ones(w)/w, mode='valid') fig, axes = plt.subplots(1, 3, figsize=(15, 4)) fig.suptitle('DRL4VRP Training Curves \u2014 Kanpur Emergency Routing', fontsize=",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 63,
+      "execution_count": 34,
+      "duration_s": 3.4197522499999877,
+      "source_preview": "actor.eval() # \u2500\u2500 Fix a reproducible test instance from the candidate pool \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 torch.manual_seed(99); np.random.seed(99); random.seed(99) (test_static, test_dynamic, test_raw, test_nids_list, test_dist_mat, test_graphs) = sample_i",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 64,
+      "execution_count": 35,
+      "duration_s": 0.04727491699998154,
+      "source_preview": "# Folium map showing all three routing strategies on the Kanpur road network rl_map = folium.Map(location=kanpur_center, zoom_start=13, tiles='cartodbpositron') ROUTE_STYLES = { 'RL (DRL4VRP)': {'color': '#2563EB', 'weight': 6, 'opacity': 0",
+      "error_count": 0,
+      "warning_patterns": []
+    },
+    {
+      "index": 65,
+      "execution_count": 36,
+      "duration_s": 0.004740083000001505,
+      "source_preview": "print() print(\"\u2554\" + \"\u2550\"*63 + \"\u2557\") print(\"\u2551 FULL PROJECT SUMMARY \u2014 Kanpur Emergency Routing \u2551\") print(\"\u2560\" + \"\u2550\"*63 + \"\u2563\") print(\"\u2551 \u2551\") print(\"\u2551 PHASE 1 \u2014 Single-Pair Shortest Path \u2551\") print(\"\u2551 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 ",
+      "error_count": 0,
+      "warning_patterns": []
+    }
+  ],
+  "notebook": "/Users/anshikamittal/Downloads/project_final_v2 (2).ipynb",
+  "executed_notebook": "runs/project_final_v2_audit/project_final_v2_2.executed.ipynb"
+}

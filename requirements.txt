@@ -1,0 +1,16 @@
+folium
+geopandas
+jupyter
+matplotlib
+networkx
+node2vec
+numpy
+osmnx
+pandas
+scipy
+shapely
+torch
+tqdm
+
+# Optional, used when available for the GNN encoder.
+torch-geometric

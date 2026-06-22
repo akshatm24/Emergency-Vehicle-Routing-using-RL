@@ -1,0 +1,547 @@
+
+--- executing source cell 4 ---
+All libraries imported successfully.
+  osmnx   version: 2.0.7
+  networkx version: 3.2.1
+
+--- executing source cell 6 ---
+Downloading Kanpur road network from OpenStreetMap...
+Graph downloaded!
+  Nodes (intersections) : 59,539
+  Edges (road segments) : 159,598
+  Graph type            : MultiDiGraph
+
+--- executing source cell 8 ---
+CRS (Coordinate Reference System): EPSG:32644
+
+All edge attribute columns:
+['osmid', 'highway', 'oneway', 'reversed', 'length', 'lanes', 'name', 'ref', 'geometry', 'access', 'bridge', 'junction', 'maxspeed', 'tunnel']
+
+Sample edge rows:
+                               length   highway maxspeed lanes  oneway
+u          v          key                                             
+245748060  8839368227 0      9.488318  tertiary      NaN   NaN    True
+           8336861318 0    126.608881     trunk      NaN     2    True
+8839368227 8839368226 0      7.398168     trunk      NaN     2    True
+           8395232941 0     70.519740  tertiary      NaN   NaN    True
+
+--- executing source cell 12 ---
+Fetching hospitals from OpenStreetMap (Overpass API)...
+OSM returned 204 hospital features.
+After removing null geometry: 204 hospitals.
+
+--- executing source cell 14 ---
+Total hospitals extracted: 204
+
+                                                                                 name       lat       lon
+                                                                   Mariampur Hospital 26.465464 80.305789
+                                                                     Agarwal Hospital 26.464244 80.314388
+                                                        Rama Krishna Mission Hospital 26.468763 80.318223
+                                               Lala Lajpat Rai and Associate Hospital 26.478124 80.311432
+                                                                  Hospital_6149794485 26.479173 80.305622
+                                          Shifa Eye Research Centre(Ana Eye Hospital) 26.468316 80.335746
+                                                         Shekhar Rastogi Eye Hospital 26.494503 80.279084
+                                                                  Merry Gold Hospital 26.409045 80.327433
+                                                  R.K.Sindhi Sangh Maternity Hospital 26.452790 80.302311
+                                          Rama Medical College Hospital, Kanpur Nagar 26.567194 80.220860
+                                                             Shivani Hospital Pvt Ltd 26.471852 80.302062
+                                                                  Tulsi Hospitals Ltd 26.479496 80.344069
+                                                                     Jeevani Hospital 26.479590 80.310641
+                                                    S.R Hospital and Diagnostic Point 26.420139 80.329320
+                                               Maa Durga Hospital and Research Center 26.498446 80.237464
+                                                                       Hamid Hospital 26.472123 80.340636
+                                                                     Regency Hospital 26.479357 80.301563
+                                                                   Ratandeep Hospital 26.480882 80.299422
+                                           Royal Cancer Institute and Research Centre 26.479268 80.316029
+                                     North Star Hospital and Joint Replacement center 26.463591 80.359061
+                                                                   Rama Shiv Hospital 26.430974 80.307937
+                                                                  Madhav Eye Hospital 26.495240 80.269344
+                                                                    Bhargava Hospital 26.474326 80.350167
+                                                             St. Catherine's Hospital 26.458151 80.360393
+                                                                New Shiv Raj Hospital 26.422144 80.319668
+                                                                       Nasir Hospital 26.431154 80.405631
+                                                        Paliwal Eye and Retina Centre 26.484118 80.319890
+                                                          Jain Hospital, Kanpur Nagar 26.413761 80.383268
+                                                                     Dwivedi Hospital 26.472789 80.292701
+                                                    Krishnalok Hospital, Kanpur Nagar 26.404430 80.315024
+                                                   Swati Hospital and Research Center 26.420413 80.319592
+                                                                       Mahsa Hospital 26.426279 80.400032
+                                                                        Huma Hospital 26.438758 80.343817
+                                                                     Fortune Hospital 26.487942 80.289306
+Ktc's Vedanta (A Hospital And Research Centre) Kanpur Ortho And Trauma Centre Pvt Ltd 26.478851 80.322930
+                                                                       Dey's Hospital 26.419361 80.389594
+                                                                  Prem Maternity Home 26.469431 80.320283
+                                                  Shyam Children and Maternity Centre 26.500529 80.257077
+                                                                     Sulaxmi Hospital 26.500017 80.305323
+                                                                     Rajrani Hospital 26.399450 80.314672
+                                                       L.P.S . Institute Of Cardilogy 26.481216 80.303460
+                                                            Abha Nursing Home Pvt Ltd 26.485451 80.325028
+                                                      Kanpur Trauma and Ortho. Centre 26.502097 80.250734
+                                                                    Madhulok Hospital 26.424059 80.320221
+                                                 Lala Amba Prasad Smarak Chikitsalaya 26.475686 80.356016
+                                                   Madhuraj Multi Speciality Hospital 26.479552 80.317530
+                                     C L Memorail Hospital and Maternity Home Pvt Ltd 26.462990 80.305702
+                                                      R K Devi Eye Research Institute 26.481962 80.317238
+                                                               New Leelamani Hospital 26.479614 80.343773
+                                                 Shri Baba Hospital and Trauma Centre 26.460296 80.259410
+                                                       Santosh Hospital, Kanpur Nagar 26.439613 80.324418
+                                                  Utkarsh Hospital and Maternity Home 26.413784 80.315021
+                                                           S D Hospital, Kanpur Nagar 26.441433 80.326643
+                                                                  The Orient Hospital 26.425271 80.309247
+                                                            The Gastro Liver Hospital 26.482983 80.313289
+                                                                   Shubh Netra Kendra 26.494569 80.279218
+                                                  Mahaveer Hospital And Trauma Centre 26.462505 80.243741
+                                                Globus Hospital for Joint Replacement 26.475874 80.294363
+                                                  Famity Hospital and Research Centre 26.395832 80.324152
+                                             Laxmi Devi Kishanchand Memorial Hospital 26.445348 80.290094
+                                                         Metro Hospital, Kanpur Nagar 26.492148 80.283748
+                                                               Khairabad Eye Hospital 26.487857 80.320659
+                                           Mother and Child Care Centre, Kanpur Nagar 26.423123 80.355153
+                                              Spm Hospital Research and Trauma Centre 26.501051 80.257534
+                                                              Angel Eyes Lasik Center 26.480552 80.299774
+                             Mehrotra Ear , Nose, Throat Hospital and Research Centre 26.472885 80.320545
+               J.L.Rohatgi Hospital and Jawaharlal Rohatagi Smarak Netra Chikitsalaya 26.478812 80.305621
+                                                     Saubhagya Hospital, Kanpur Nagar 26.491994 80.247367
+                                                           Raj Hospital, Kanpur Nagar 26.429421 80.301827
+                                                              Kanika Hospital Pvt Ltd 26.475753 80.324811
+                                                                   Kulwanti Hospitals 26.479571 80.293557
+                                                                    Raja Ram Hospital 26.459967 80.247132
+                                                             Sushila General Hospital 26.435245 80.317785
+                                                    Satya Trauma and Maternity Center 26.439217 80.292669
+                                    Guru Teg Bhadur Charitable Hospital, Kanpur Nagar 26.467775 80.307014
+                                                                      Kabeer Hospital 26.407704 80.331436
+                                                                     Chandni Hospital 26.479685 80.322481
+                                                         Priya Hospital, Kanpur Nagar 26.430431 80.299884
+                                                                  R.P. Medical Centre 26.495749 80.288075
+                                                                      Manama Hospital 26.466557 80.336771
+                                                                  Brij Medical Centre 26.463373 80.243634
+                                                             G.S.V.M. Medical College 26.481019 80.307529
+                                                Dr Lalchandani E N T and Laser Center 26.479505 80.314271
+                                                                       Excel Hospital 26.480551 80.337284
+                                                    Apex Hospital and Research Centre 26.484027 80.249701
+                                                 Eye-Q Super Speciality Eye Hospitals 26.479230 80.314031
+                                                           MANYAWAR KASHIRAM HOSPITAL 26.414491 80.381513
+                                                                  Government hospital 26.421313 80.392078
+                                                                    UHM MALE HOSPITAL 26.472754 80.348936
+                                                                      Ganesh Hospital 26.434805 80.301570
+                                                                         Ram Hospital 26.416130 80.296992
+                                                                  Dhanvantri Hospital 26.421135 80.318040
+                                                                      Galaxy Hospital 26.480920 80.245946
+                                                                     Narayan Hospital 26.496531 80.253528
+                                                  Reenadeep Woman & Child Care Centre 26.446065 80.292013
+                                                       Sai Eye Hospital, Govind Nagar 26.452025 80.306826
+                                                            Royal Children's Hospital 26.423570 80.320142
+                                                                    Mahendru Hospital 26.478904 80.304545
+                                                        Abhinav Nursing Home Hospital 26.490862 80.250883
+                                                                     Asg Eye Hospital 26.464340 80.302470
+                                                                     Chandra Hospital 26.429204 80.302101
+                                                                      Arogya Hospital 26.467618 80.248771
+                                                                    Tirupati Hospital 26.490033 80.246573
+                                                                     Drishti Hospital 26.436323 80.303994
+                                                                      Kabira Hospital 26.442049 80.297736
+                                                                    Shraddha Hospital 26.441209 80.293163
+                                                                      Raunak Hospital 26.408292 80.322601
+                                                                 ESI Hospital, Kanpur 26.425111 80.326361
+                                                                   Mandakini Hospital 26.422630 80.302848
+                                                                      Swaraj Hospital 26.476230 80.286843
+                                                                       Amogh Hospital 26.428073 80.320868
+                                                                      Aashvi Hospital 26.440773 80.299360
+                                                                Jeewan Jyoti Hospital 26.434125 80.301634
+                                                                    Samarpan Hospital 26.477993 80.244155
+                                                                        Apex Hospital 26.484473 80.250807
+                                                               H2O Life Care Hospital 26.484083 80.244615
+                                                                     Jagrati Hospital 26.396746 80.323418
+                                                                       Kanha Hospital 26.496557 80.243695
+                                                                         Bmg Hospital 26.439556 80.310816
+                                                 Shri Jairam Hospital & Trauma Centre 26.435463 80.287411
+                                                        Regency Renal Sciences Centre 26.479356 80.316070
+                                                 Maa Jwala Hospital and Trauma Centre 26.494746 80.254755
+                                                                        Ansh Hospital 26.492767 80.252764
+                                                                        Shiv Hospital 26.493908 80.249021
+                                                                         Sis Hospital 26.484863 80.256276
+                                                                     Shaurya Hospital 26.498069 80.240519
+                                                                 Ofc Hospital Armapur 26.465544 80.261963
+                                                           Maa Vindhyeshwari Hospital 26.438069 80.271411
+                                                                    Merigold Hospital 26.471595 80.242583
+                                                                     Krishna Hospital 26.496623 80.252990
+                                                                  Guru Nanak Hospital 26.466835 80.306584
+                                                                         Ppm Hospital 26.435452 80.308916
+                                                 New Angel Hospital & Research Centre 26.427192 80.335067
+                                                         The Panacea Hospital, Kanpur 26.473978 80.293236
+                                                                        Sagh Hospital 26.450663 80.306328
+                                                                    Anuradha Hospital 26.415159 80.319435
+                                                           McRobert Memorial Hospital 26.481200 80.343604
+                                                                     Regency Hospital 26.448615 80.309049
+                                                                          Ma Hospital 26.429859 80.289874
+                                                        Dr. Murari Lal Chest Hospital 26.482040 80.303210
+                                                                     Nostrum Hospital 26.436185 80.273083
+                                                                         SPM Hospital 26.424901 80.303751
+                                                                         ESI Hospital 26.464798 80.306096
+                                                  South City Hospital & Trauma Centre 26.413303 80.298816
+                                                                       Shifa Hospital 26.397014 80.328639
+                                                                    Vatsalya Hospital 26.496054 80.252124
+                                                    Ramraj Hospital and Trauma Centre 26.392957 80.317122
+                                                                      Indian Hospital 26.440596 80.281260
+                                                                        Amba Hospital 26.478226 80.348621
+                                                                       Angel Hospital 26.433421 80.314520
+                                                                      Mannat Hospital 26.388190 80.309528
+                                                    Mansrovar Medical Centre Hospital 26.434555 80.302731
+                                                                      Khushi Hospital 26.432604 80.297997
+                                                                     Emerald Hospital 26.429458 80.330011
+                                                                        City Hospital 26.443452 80.286485
+                                                                       South Hospital 26.442347 80.293808
+                                                                       S. S. Hospital 26.394380 80.312892
+                                                                     Chandra Hospital 26.440292 80.279681
+                                                       Sis Hospital & Research Centre 26.484218 80.256000
+                                                              Shanti Mission Hospital 26.412936 80.324669
+                                                                       Vimal Hospital 26.441250 80.320893
+                                                                C L Memorial Hospital 26.463779 80.296616
+                                                                  Jaigurudev Hospital 26.404195 80.303340
+                                                                    Shivansh Hospital 26.463327 80.243572
+                                                                  Gaytri Nursing Home 26.438297 80.333381
+                                                                       Pulse Hospital 26.494955 80.249559
+                                                                         J K Hospital 26.411717 80.332896
+                                                                      Sahyog Hospital 26.393943 80.311879
+                                                                     Sunrise Hospital 26.485006 80.248942
+                                                                  Ganga Devi Hospital 26.429673 80.301272
+                                                                        Bima Hospital 26.473103 80.295996
+                                                                       Bliss Hospital 26.429882 80.290191
+                                                     Uttam Hospital and Trauma Centre 26.388799 80.313030
+                                                                    New City Hospital 26.437316 80.282689
+                                                                      Chanda Hospital 26.482687 80.281182
+                                                                       Saine Hospital 26.489764 80.265679
+                                                      Dr. Ram Shankar Smarak Hospital 26.475335 80.286044
+                                                             Krishna Hospital, Kanpur 26.390296 80.311634
+                                                                   Merrygold Hospital 26.462290 80.244649
+                                                                       E S I Hospital 26.475831 80.300529
+                                                       Shrey Hospital & Trauma Centre 26.477304 80.272599
+                                                Swastik Surgical and Maternity Centre 26.416405 80.328165
+                                                                     Delight Hospital 26.474270 80.283791
+                                                                   Satya Eye Hospital 26.399831 80.314652
+                                                                  The Expert Hospital 26.394850 80.313115
+                                                                        Hari Hospital 26.451276 80.300419
+                                                                      Anurag Hospital 26.483266 80.287547
+                                                               Anil Memorial Hospital 26.397228 80.314681
+                                                                  Sanjeevani Hospital 26.429842 80.292188
+                                                                      Ursala Hospital 26.472315 80.350532
+                                                 Parivar Kalyan Seva Sanstha Hospital 26.436395 80.286314
+                                                             R.U. Charitable Hospital 26.418948 80.313372
+                                                         Seva Chandra Prabha Hospital 26.431327 80.296906
+                                                                      Sakshi Hospital 26.488382 80.246312
+                                                                        Udai Hospital 26.414795 80.300512
+                                                                  Hospital_7666557114 26.475315 80.286099
+                                                                  Hospital_9961469617 26.549394 80.259083
+                                                                   UPRVUNL Dispensary 26.480296 80.237620
+                                                                        Good Hospital 26.423620 80.320176
+                                                                 New Shivraj Hospital 26.421722 80.319490
+                                                                   mariampur hospital 26.464995 80.305943
+                                                                     Sushrut Hospital 26.511751 80.264049
+                                                                        Health Centre 26.505311 80.233666
+                                                                 7 Air Force Hospital 26.447364 80.376704
+
+--- executing source cell 16 ---
+Snapping hospital GPS coordinates to nearest road intersections...
+Snapping complete.
+
+                                                                                 name       lat       lon     node_id
+                                                                   Mariampur Hospital 26.465464 80.305789   343597561
+                                                                     Agarwal Hospital 26.464244 80.314388   343597536
+                                                        Rama Krishna Mission Hospital 26.468763 80.318223   373493862
+                                               Lala Lajpat Rai and Associate Hospital 26.478124 80.311432  6290436816
+                                                                  Hospital_6149794485 26.479173 80.305622  8163097713
+                                          Shifa Eye Research Centre(Ana Eye Hospital) 26.468316 80.335746   418829159
+                                                         Shekhar Rastogi Eye Hospital 26.494503 80.279084  8814801648
+                                                                  Merry Gold Hospital 26.409045 80.327433   576386404
+                                                  R.K.Sindhi Sangh Maternity Hospital 26.452790 80.302311  8816139793
+                                          Rama Medical College Hospital, Kanpur Nagar 26.567194 80.220860 11975354315
+                                                             Shivani Hospital Pvt Ltd 26.471852 80.302062   567531230
+                                                                  Tulsi Hospitals Ltd 26.479496 80.344069  8991763929
+                                                                     Jeevani Hospital 26.479590 80.310641   418829094
+                                                    S.R Hospital and Diagnostic Point 26.420139 80.329320  6571875046
+                                               Maa Durga Hospital and Research Center 26.498446 80.237464  2321295928
+                                                                       Hamid Hospital 26.472123 80.340636  8798146479
+                                                                     Regency Hospital 26.479357 80.301563  8163097714
+                                                                   Ratandeep Hospital 26.480882 80.299422  8797356000
+                                           Royal Cancer Institute and Research Centre 26.479268 80.316029   418829097
+                                     North Star Hospital and Joint Replacement center 26.463591 80.359061  4156103071
+                                                                   Rama Shiv Hospital 26.430974 80.307937  8140675544
+                                                                  Madhav Eye Hospital 26.495240 80.269344   245748961
+                                                                    Bhargava Hospital 26.474326 80.350167   560769162
+                                                             St. Catherine's Hospital 26.458151 80.360393  9909305447
+                                                                New Shiv Raj Hospital 26.422144 80.319668  6572465326
+                                                                       Nasir Hospital 26.431154 80.405631  2406465900
+                                                        Paliwal Eye and Retina Centre 26.484118 80.319890  9186393416
+                                                          Jain Hospital, Kanpur Nagar 26.413761 80.383268  6292470521
+                                                                     Dwivedi Hospital 26.472789 80.292701   567495980
+                                                    Krishnalok Hospital, Kanpur Nagar 26.404430 80.315024  8438723072
+                                                   Swati Hospital and Research Center 26.420413 80.319592   567545744
+                                                                       Mahsa Hospital 26.426279 80.400032  2406465868
+                                                                        Huma Hospital 26.438758 80.343817  5317323667
+                                                                     Fortune Hospital 26.487942 80.289306   588155812
+Ktc's Vedanta (A Hospital And Research Centre) Kanpur Ortho And Trauma Centre Pvt Ltd 26.478851 80.322930  8815127249
+                                                                       Dey's Hospital 26.419361 80.389594  8797096130
+                                                                  Prem Maternity Home 26.469431 80.320283   373493744
+                                                  Shyam Children and Maternity Centre 26.500529 80.257077  4317018213
+                                                                     Sulaxmi Hospital 26.500017 80.305323   588146140
+                                                                     Rajrani Hospital 26.399450 80.314672  8797358491
+                                                       L.P.S . Institute Of Cardilogy 26.481216 80.303460  9009706120
+                                                            Abha Nursing Home Pvt Ltd 26.485451 80.325028  8816360010
+                                                      Kanpur Trauma and Ortho. Centre 26.502097 80.250734  6245817453
+                                                                    Madhulok Hospital 26.424059 80.320221  8336835604
+                                                 Lala Amba Prasad Smarak Chikitsalaya 26.475686 80.356016  9620001103
+                                                   Madhuraj Multi Speciality Hospital 26.479552 80.317530   486725173
+                                     C L Memorail Hospital and Maternity Home Pvt Ltd 26.462990 80.305702  8819361870
+                                                      R K Devi Eye Research Institute 26.481962 80.317238   486725167
+                                                               New Leelamani Hospital 26.479614 80.343773  8991763930
+                                                 Shri Baba Hospital and Trauma Centre 26.460296 80.259410  3156228564
+                                                       Santosh Hospital, Kanpur Nagar 26.439613 80.324418   567531170
+                                                  Utkarsh Hospital and Maternity Home 26.413784 80.315021   577089748
+                                                           S D Hospital, Kanpur Nagar 26.441433 80.326643  8839332413
+                                                                  The Orient Hospital 26.425271 80.309247  6285284509
+                                                            The Gastro Liver Hospital 26.482983 80.313289  6300308501
+                                                                   Shubh Netra Kendra 26.494569 80.279218  8814801648
+                                                  Mahaveer Hospital And Trauma Centre 26.462505 80.243741   567514366
+                                                Globus Hospital for Joint Replacement 26.475874 80.294363   567496033
+                                                  Famity Hospital and Research Centre 26.395832 80.324152  8797006911
+                                             Laxmi Devi Kishanchand Memorial Hospital 26.445348 80.290094  8816128039
+                                                         Metro Hospital, Kanpur Nagar 26.492148 80.283748  6292426958
+                                                               Khairabad Eye Hospital 26.487857 80.320659  6290606350
+                                           Mother and Child Care Centre, Kanpur Nagar 26.423123 80.355153   569939375
+                                              Spm Hospital Research and Trauma Centre 26.501051 80.257534  6241089901
+                                                              Angel Eyes Lasik Center 26.480552 80.299774   567496176
+                             Mehrotra Ear , Nose, Throat Hospital and Research Centre 26.472885 80.320545   407657382
+               J.L.Rohatgi Hospital and Jawaharlal Rohatagi Smarak Netra Chikitsalaya 26.478812 80.305621  8163097710
+                                                     Saubhagya Hospital, Kanpur Nagar 26.491994 80.247367   567514892
+                                                           Raj Hospital, Kanpur Nagar 26.429421 80.301827  6280155838
+                                                              Kanika Hospital Pvt Ltd 26.475753 80.324811   409132076
+                                                                   Kulwanti Hospitals 26.479571 80.293557   588159574
+                                                                    Raja Ram Hospital 26.459967 80.247132  8820621683
+                                                             Sushila General Hospital 26.435245 80.317785   567531085
+                                                    Satya Trauma and Maternity Center 26.439217 80.292669  6259042386
+                                    Guru Teg Bhadur Charitable Hospital, Kanpur Nagar 26.467775 80.307014 10206961188
+                                                                      Kabeer Hospital 26.407704 80.331436  6287388403
+                                                                     Chandni Hospital 26.479685 80.322481  8793834293
+                                                         Priya Hospital, Kanpur Nagar 26.430431 80.299884  8816724721
+                                                                  R.P. Medical Centre 26.495749 80.288075  8806633404
+                                                                      Manama Hospital 26.466557 80.336771  8813590378
+                                                                  Brij Medical Centre 26.463373 80.243634   567514384
+                                                             G.S.V.M. Medical College 26.481019 80.307529  6285247766
+                                                Dr Lalchandani E N T and Laser Center 26.479505 80.314271   560780333
+                                                                       Excel Hospital 26.480551 80.337284  8797446511
+                                                    Apex Hospital and Research Centre 26.484027 80.249701  8823190503
+                                                 Eye-Q Super Speciality Eye Hospitals 26.479230 80.314031   418829095
+                                                           MANYAWAR KASHIRAM HOSPITAL 26.414491 80.381513  8797096266
+                                                                  Government hospital 26.421313 80.392078  6598647359
+                                                                    UHM MALE HOSPITAL 26.472754 80.348936  8798093714
+                                                                      Ganesh Hospital 26.434805 80.301570  8816746043
+                                                                         Ram Hospital 26.416130 80.296992  8811149636
+                                                                  Dhanvantri Hospital 26.421135 80.318040  8440416405
+                                                                      Galaxy Hospital 26.480920 80.245946  4155913505
+                                                                     Narayan Hospital 26.496531 80.253528  8822806410
+                                                  Reenadeep Woman & Child Care Centre 26.446065 80.292013  6292228096
+                                                       Sai Eye Hospital, Govind Nagar 26.452025 80.306826  6285170166
+                                                            Royal Children's Hospital 26.423570 80.320142  8336835603
+                                                                    Mahendru Hospital 26.478904 80.304545  8797350755
+                                                        Abhinav Nursing Home Hospital 26.490862 80.250883  4153867911
+                                                                     Asg Eye Hospital 26.464340 80.302470   567495903
+                                                                     Chandra Hospital 26.429204 80.302101  8450506873
+                                                                      Arogya Hospital 26.467618 80.248771   567514596
+                                                                    Tirupati Hospital 26.490033 80.246573  8823798434
+                                                                     Drishti Hospital 26.436323 80.303994  8816746078
+                                                                      Kabira Hospital 26.442049 80.297736  5317312224
+                                                                    Shraddha Hospital 26.441209 80.293163  6285414628
+                                                                      Raunak Hospital 26.408292 80.322601   576386276
+                                                                 ESI Hospital, Kanpur 26.425111 80.326361  6580989257
+                                                                   Mandakini Hospital 26.422630 80.302848  8811399134
+                                                                      Swaraj Hospital 26.476230 80.286843  8797197759
+                                                                       Amogh Hospital 26.428073 80.320868   567545952
+                                                                      Aashvi Hospital 26.440773 80.299360  5317312017
+                                                                Jeewan Jyoti Hospital 26.434125 80.301634  4989211070
+                                                                    Samarpan Hospital 26.477993 80.244155  8790957665
+                                                                        Apex Hospital 26.484473 80.250807  6290635308
+                                                               H2O Life Care Hospital 26.484083 80.244615  8823618020
+                                                                     Jagrati Hospital 26.396746 80.323418  8797006919
+                                                                       Kanha Hospital 26.496557 80.243695  8824019232
+                                                                         Bmg Hospital 26.439556 80.310816   607308499
+                                                 Shri Jairam Hospital & Trauma Centre 26.435463 80.287411  8816724824
+                                                        Regency Renal Sciences Centre 26.479356 80.316070   418829097
+                                                 Maa Jwala Hospital and Trauma Centre 26.494746 80.254755  4153936413
+                                                                        Ansh Hospital 26.492767 80.252764  4153936401
+                                                                        Shiv Hospital 26.493908 80.249021  4153890848
+                                                                         Sis Hospital 26.484863 80.256276  6398693736
+                                                                     Shaurya Hospital 26.498069 80.240519  8819916445
+                                                                 Ofc Hospital Armapur 26.465544 80.261963  8791169657
+                                                           Maa Vindhyeshwari Hospital 26.438069 80.271411  8823880310
+                                                                    Merigold Hospital 26.471595 80.242583   567514432
+                                                                     Krishna Hospital 26.496623 80.252990  6285588990
+                                                                  Guru Nanak Hospital 26.466835 80.306584  8796859104
+                                                                         Ppm Hospital 26.435452 80.308916  8395232815
+                                                 New Angel Hospital & Research Centre 26.427192 80.335067  8395232978
+                                                         The Panacea Hospital, Kanpur 26.473978 80.293236   567496029
+                                                                        Sagh Hospital 26.450663 80.306328  6285170687
+                                                                    Anuradha Hospital 26.415159 80.319435   577089865
+                                                           McRobert Memorial Hospital 26.481200 80.343604  6300522334
+                                                                     Regency Hospital 26.448615 80.309049  6290317313
+                                                                          Ma Hospital 26.429859 80.289874  6280154995
+                                                        Dr. Murari Lal Chest Hospital 26.482040 80.303210  8797350761
+                                                                     Nostrum Hospital 26.436185 80.273083  8143119955
+                                                                         SPM Hospital 26.424901 80.303751  8816956341
+                                                                         ESI Hospital 26.464798 80.306096   343597585
+                                                  South City Hospital & Trauma Centre 26.413303 80.298816  8811149608
+                                                                       Shifa Hospital 26.397014 80.328639  8796959837
+                                                                    Vatsalya Hospital 26.496054 80.252124  8822966837
+                                                    Ramraj Hospital and Trauma Centre 26.392957 80.317122  8797542623
+                                                                      Indian Hospital 26.440596 80.281260  8822913065
+                                                                        Amba Hospital 26.478226 80.348621   560769202
+                                                                       Angel Hospital 26.433421 80.314520   607308370
+                                                                      Mannat Hospital 26.388190 80.309528  8797352642
+                                                    Mansrovar Medical Centre Hospital 26.434555 80.302731  4989211079
+                                                                      Khushi Hospital 26.432604 80.297997  8816955446
+                                                                     Emerald Hospital 26.429458 80.330011 11883101005
+                                                                        City Hospital 26.443452 80.286485  4154248154
+                                                                       South Hospital 26.442347 80.293808  4155895713
+                                                                       S. S. Hospital 26.394380 80.312892  8804045141
+                                                                     Chandra Hospital 26.440292 80.279681  8823918212
+                                                       Sis Hospital & Research Centre 26.484218 80.256000  6398693736
+                                                              Shanti Mission Hospital 26.412936 80.324669  6290551528
+                                                                       Vimal Hospital 26.441250 80.320893  6285143533
+                                                                C L Memorial Hospital 26.463779 80.296616 11957836435
+                                                                  Jaigurudev Hospital 26.404195 80.303340  8811543939
+                                                                    Shivansh Hospital 26.463327 80.243572   567514384
+                                                                  Gaytri Nursing Home 26.438297 80.333381   567531310
+                                                                       Pulse Hospital 26.494955 80.249559  6280115133
+                                                                         J K Hospital 26.411717 80.332896  8381932485
+                                                                      Sahyog Hospital 26.393943 80.311879  8336013712
+                                                                     Sunrise Hospital 26.485006 80.248942  6290635324
+                                                                  Ganga Devi Hospital 26.429673 80.301272  6280155838
+                                                                        Bima Hospital 26.473103 80.295996   567496028
+                                                                       Bliss Hospital 26.429882 80.290191  8397504746
+                                                     Uttam Hospital and Trauma Centre 26.388799 80.313030  8340140774
+                                                                    New City Hospital 26.437316 80.282689  8140675559
+                                                                      Chanda Hospital 26.482687 80.281182  8798237599
+                                                                       Saine Hospital 26.489764 80.265679  8813381759
+                                                      Dr. Ram Shankar Smarak Hospital 26.475335 80.286044   567495686
+                                                             Krishna Hospital, Kanpur 26.390296 80.311634  8342507794
+                                                                   Merrygold Hospital 26.462290 80.244649  8820608669
+                                                                       E S I Hospital 26.475831 80.300529   567496074
+                                                       Shrey Hospital & Trauma Centre 26.477304 80.272599  8806063433
+                                                Swastik Surgical and Maternity Centre 26.416405 80.328165   567545925
+                                                                     Delight Hospital 26.474270 80.283791   567495700
+                                                                   Satya Eye Hospital 26.399831 80.314652  8339021551
+                                                                  The Expert Hospital 26.394850 80.313115  8796947804
+                                                                        Hari Hospital 26.451276 80.300419  8819554622
+                                                                      Anurag Hospital 26.483266 80.287547  3219267044
+                                                               Anil Memorial Hospital 26.397228 80.314681  8796947784
+                                                                  Sanjeevani Hospital 26.429842 80.292188  8817024337
+                                                                      Ursala Hospital 26.472315 80.350532  8813236718
+                                                 Parivar Kalyan Seva Sanstha Hospital 26.436395 80.286314  6585743233
+                                                             R.U. Charitable Hospital 26.418948 80.313372  6287456534
+                                                         Seva Chandra Prabha Hospital 26.431327 80.296906  6287468630
+                                                                      Sakshi Hospital 26.488382 80.246312  8824479902
+                                                                        Udai Hospital 26.414795 80.300512  8811005711
+                                                                  Hospital_7666557114 26.475315 80.286099   567495686
+                                                                  Hospital_9961469617 26.549394 80.259083  7054457290
+                                                                   UPRVUNL Dispensary 26.480296 80.237620  8806732487
+                                                                        Good Hospital 26.423620 80.320176  8336835603
+                                                                 New Shivraj Hospital 26.421722 80.319490  8336835598
+                                                                   mariampur hospital 26.464995 80.305943   343597561
+                                                                     Sushrut Hospital 26.511751 80.264049  7054730163
+                                                                        Health Centre 26.505311 80.233666  3503522887
+                                                                 7 Air Force Hospital 26.447364 80.376704  8806451375
+
+--- executing source cell 18 ---
+Computing speed and travel_time for all edges...
+Updated 159,598 edges with speed_kmh and travel_time.
+
+Sample edge verification (first 4 edges):
+highway             length(m)  speed(km/h)  travel_time(s)
+------------------------------------------------------------
+tertiary                  9.5           30             1.1
+trunk                   126.6           60             7.6
+residential              73.2           20            13.2
+trunk                     6.9           60             0.4
+
+--- executing source cell 37 ---
+PyTorch  : 2.8.0
+Device   : cpu
+Seed     : 42
+
+--- executing source cell 39 ---
+Depot (Hospital) : Mariampur Hospital
+  GPS  : (26.4654, 80.3065)
+  Node : 343597561
+Incidents per episode : 5
+Nodes per instance    : 6  (1 depot + 5 incidents)
+
+Batch shapes:
+  static      : (4, 2, 6)  — normalised (lat,lon) per node
+  dynamic     : (4, 1, 6) — demand (0=depot, 1=incident)
+  raw_coords  : (4, 6, 2)  — GPS for reward computation
+
+First instance node IDs : [343597561, 8793872928, 569945764, 8802565925, 8794503830, 8788477529]
+First instance demand   : [0.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+--- executing source cell 41 ---
+Building candidate pool of 150 nodes...
+Pool size (depot + candidates): 151
+
+Pre-computing 151×151 distance matrix with Dijkstra...
+(One-time cost — takes ~30–90 seconds depending on hardware)
+
+
+Distance matrix: (151, 151)
+  Reachable pairs  : 22,268 / 22,801
+  Mean travel time : 1499.3s (24.99 min)
+  Max travel time  : 3600.0s (60.00 min)
+
+Sample distances from depot to first 5 pool nodes:
+  → node 8793872928: 1474.0s (24.57 min)
+  → node 569945764: 1040.7s (17.34 min)
+  → node 8802565925: 1107.2s (18.45 min)
+  → node 8794503830: 1445.1s (24.09 min)
+  → node 8788477529: 2914.3s (48.57 min)
+
+--- executing source cell 50 ---
+StaticEncoder  output shape : torch.Size([4, 6, 128])
+DynamicEncoder output shape : torch.Size([4, 6, 128])
+
+--- executing source cell 51 ---
+BahdanauAttention and GRUDecoder classes defined.
+
+=== ablation probe shapes ===
+static      (4, 2, 6)
+dynamic     (4, 1, 6)
+dist_mats   (4, 6, 6)
+tours       (4, 5) dtype=torch.int64 values=[[1, 5, 3, 2, 4], [1, 4, 5, 2, 3], [5, 4, 1, 2, 3], [5, 1, 4, 3, 2]]
+log_probs   (4,) finite=True
+tour_lengths (4,) finite=True
+baseline    (4,) finite=True
+actor_loss  -43154.343750
+critic_loss 85427864.000000
+
+=== actor gradients ===
+params=13 grad_none=0 grad_zero=0 total_grad_norm=11144.813368
+static_enc.proj.weight                     shape=(128, 2)           grad_norm=2838.734619
+static_enc.proj.bias                       shape=(128,)             grad_norm=3101.575195
+dynamic_enc.proj.weight                    shape=(128, 1)           grad_norm=45.877193
+dynamic_enc.proj.bias                      shape=(128,)             grad_norm=45.877182
+decoder.gru.weight_ih_l0                   shape=(384, 128)         grad_norm=49.473415
+decoder.gru.weight_hh_l0                   shape=(384, 128)         grad_norm=15.357990
+decoder.gru.bias_ih_l0                     shape=(384,)             grad_norm=63.250195
+decoder.gru.bias_hh_l0                     shape=(384,)             grad_norm=31.608425
+decoder.attention.W_q.weight               shape=(128, 128)         grad_norm=53.045555
+decoder.attention.W_r.weight               shape=(128, 128)         grad_norm=2653.383057
+decoder.attention.v.weight                 shape=(1, 128)           grad_norm=2194.947266
+node_embed.weight                          shape=(128, 2)           grad_norm=25.219080
+node_embed.bias                            shape=(128,)             grad_norm=26.464195
+
+=== critic gradients ===
+params=8 grad_none=0 grad_zero=0 total_grad_norm=89173.641113
+encoder.proj.weight                        shape=(128, 2)           grad_norm=6350.907227
+encoder.proj.bias                          shape=(128,)             grad_norm=8346.987305
+value_head.0.weight                        shape=(128, 128)         grad_norm=11011.495117
+value_head.0.bias                          shape=(128,)             grad_norm=13392.231445
+value_head.2.weight                        shape=(64, 128)          grad_norm=9303.373047
+value_head.2.bias                          shape=(64,)              grad_norm=16796.623047
+value_head.4.weight                        shape=(1, 64)            grad_norm=6107.793457
+value_head.4.bias                          shape=(1,)               grad_norm=17864.230469

@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# Local credentials and environment files
+.env
+.env.*
+*.pem
+*.key
+
+# Heavy training outputs that should not be pushed accidentally
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Local notebook/runtime caches
+wandb/
+mlruns/
